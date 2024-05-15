@@ -9,5 +9,5 @@ working now with its own server and MySQL based database with the help of [Seque
 * Start server ```node server.js```
 * Download and Setup React-Blog from my [Github](https://github.com/Hamza-AliKhan/React-Blog) 
 * Navigate to ```src/components/ResponseInterceptor.js```
-* Change  ```baseURL: 'http://localhost:5000/api'``` from  ```baseURL: 'https://jsonplaceholder.typicode.com/'``` to use server
+* Change (simply remove ```//``` 'comment tags') ```baseURL: 'http://localhost:5000/api'``` from  ```baseURL: 'https://jsonplaceholder.typicode.com/'``` to use server
 * Start client (From React-Blog folder)  ``` npm start ```
