@@ -1,0 +1,22 @@
+
+{
+    "development": {
+      "username": "root",
+      "password": "admin",
+      "database": "react-blog-database",
+      "host": "localhost",
+      "dialect": "mysql"
+    },
+    "test": {
+      "username": "root",
+      "password": "admin",
+      "database": "react-blog-database",
+      "host": "localhost",
+      "dialect": "mysql"
+    },
+    "production": {
+      "use_env_variable": "localhost",
+      "dialect": "mysql"
+    }
+  }
+  
