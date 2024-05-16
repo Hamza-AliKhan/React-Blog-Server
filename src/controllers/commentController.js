@@ -5,12 +5,15 @@ exports.checker = async (req, res) => {
     const queryParams = new URLSearchParams(req.url.split('?')[1]);
     const postId = queryParams.get(`postId`);
     const limit = queryParams.get(`_limit`);
+    const orderby = new URLSearchParams(req.url.split('?')[2]).get(`_orderby`);
+    const columnby = new URLSearchParams(req.url.split('?')[3]).get(`_columnby`);
+    console.log('PostId',postId,'Column By: ',columnby,' Order By: ',orderby,' Limit: ',limit)
 
     if (postId) {
-      const comments = await getCommentByPostId(postId);
+      const comments = await getCommentByPostId(postId,orderby,columnby);
       res.send(comments);
     } else {
-      const comments = await getAllComments(limit);
+      const comments = await getAllComments(limit,orderby,columnby);
       res.send(comments);
     }
   } catch (error) {
@@ -19,15 +22,22 @@ exports.checker = async (req, res) => {
   }
 };
 
-async function getCommentByPostId(postId) {
+async function getCommentByPostId(postId,orderby,columnby) {
   try {
     // Use postId to find comments
-    const comments = await Comments.findAll({ where: { postId: postId } });
-    
+    if(orderby!=null &&columnby!=null){
+    const comments = await Comments.findAll({ where: { postId: postId },order:[[columnby,orderby]]});
     if (!comments) {
       throw new Error('Comments not found');
     }
     return comments;
+    }else {
+      const comments = await Comments.findAll({ where: { postId: postId }});
+      if (!comments) {
+        throw new Error('Comments not found');
+      }
+      return comments; 
+    }
 
   } catch (error) {
     console.error(error);
@@ -35,19 +45,32 @@ async function getCommentByPostId(postId) {
   }
 };
 
-async function getAllComments(limit) {
+async function getAllComments(limit,orderby,columnby) {
   try {
     // Use postId to find comments
-    const comments = await Comments.findAll({limit:parseInt(limit)});
-    
+    if(orderby!=null &&columnby!=null){
+    const comments = await Comments.findAll({limit:parseInt(limit),order:[[columnby,orderby]] });
+    console.log('Column By: ',columnby,' Order By: ',orderby,' Limit: ',limit);
     if (!comments) {
       throw new Error('Comments not found');
     }
     return comments;
+    }else {
+      const comments = await Comments.findAll({limit:parseInt(limit) });
+      console.log(' Limit: ',limit);
+      if (!comments) {
+        throw new Error('Comments not found');
+      }
+      return comments;
+    }
+    
+    
 
   } catch (error) {
     console.error(error);
+    console.log('Column By: ',columnby,' Order By: ',orderby,' Limit: ',limit);
     throw new Error('Server Error while getting comment By ID');
+    
   }
 };
 
