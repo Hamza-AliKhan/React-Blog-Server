@@ -7,7 +7,7 @@ exports.checker = async (req, res) => {
     const limit = queryParams.get(`_limit`);
     const orderby = new URLSearchParams(req.url.split('?')[2]).get(`_orderby`);
     const columnby = new URLSearchParams(req.url.split('?')[3]).get(`_columnby`);
-    console.log('PostId',postId,'Column By: ',columnby,' Order By: ',orderby,' Limit: ',limit)
+    console.log('PostId: ',postId,'Column By: ',columnby,' Order By: ',orderby,' Limit: ',limit)
 
     if (postId) {
       const comments = await getCommentByPostId(postId,orderby,columnby);
